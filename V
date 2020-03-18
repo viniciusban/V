@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+#
+# V - Work effectively with virtualenvs
+
+me=$(basename "$0")
+
+_help () {
+	cat <<-_EOF_
+	Work with Python virtualenvs the right way.
+	Usage: ${me} <command>
+	where <command>:
+	    help: show this screen and exit.
+	    enter: enter the virtualenv in a subshell.
+	_EOF_
+}
+
+
+_enter_virtualenv () {
+	where="$1"
+	echo "Virtualenv location: $where"
+	local command='true'
+
+	if [[ -f $HOME/.bashrc ]]; then
+	   	command="$command;source $HOME/.bashrc"
+	fi
+	command="$command;export VIRTUAL_ENV='${where}/bin'"
+	command="$command;export PATH='"${where}"/bin:${PATH}'"
+	command="$command;hash -r"
+	command="$command;python --version"
+	for env in {.env,.env.local}; do
+		if [[ -r $env ]]; then
+			command="$command;echo 'Loading configuration file: $env'"
+			command="$command;source $env"
+			break
+		fi
+	done
+	command="$command;echo 'Type \"exit\" or press CTRL-D to exit'"
+	bash --init-file <(echo $command)
+}
+
+
+
+
+_main () {
+	while true; do
+		case "$1" in
+			enter )
+				if [[ -z "$2" ]]; then
+					echo "Enter where?"
+					return 1
+				fi
+				_enter_virtualenv "$2"
+				return
+			;;
+
+			* )
+				_help
+				return
+			;;
+		esac
+	done
+}
+
+_main "$@"

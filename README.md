@@ -9,12 +9,11 @@ To enter the virtualenv:
 
 ```
 $ cd ~/src/myproject
-$ . v enter <path>
-Saving current environment...
-Virtualenv located at ~/.local/bin/share/virtualenvs/myproject_16804b4
+$ V enter $PWD/.virtualenv
+Virtualenv location: /home/user/src/myproject/.virtualenv
+Python 3.7.6
 Loading configuration file: .env
-Virtualenv activated with Python 3.7.6
-Type ". v exit" to leave it
+Type "exit" or press CTRL-D to exit
 $ 
 ```
 
@@ -22,9 +21,9 @@ $
 To exit the virtualenv:
 
 ```
-$ . v exit
-Restoring previous environment...
-Virtualenv exited
-$ 
+$ exit
+$
 ```
+
+It will not close your terminal because V opens a subshell when enter into the virtualenv.
 
