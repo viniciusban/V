@@ -14,31 +14,42 @@ _help () {
 	_EOF_
 }
 
-
 _enter_virtualenv () {
 	where="$1"
-	echo "Virtualenv location: $where"
-	local command='true'
-
-	if [[ -f $HOME/.bashrc ]]; then
-	   	command="$command;source $HOME/.bashrc"
-	fi
-	command="$command;export VIRTUAL_ENV='${where}/bin'"
-	command="$command;export PATH='"${where}"/bin:${PATH}'"
-	command="$command;hash -r"
-	command="$command;python --version"
-	for env in {.env,.env.local}; do
-		if [[ -r $env ]]; then
-			command="$command;echo 'Loading configuration file: $env'"
-			command="$command;source $env"
-			break
-		fi
-	done
-	command="$command;echo 'Type \"exit\" or press CTRL-D to exit'"
-	bash --init-file <(echo $command)
+	commands=$(_build_commands_to_enter "$where")
+	bash --init-file <(echo $commands)
 }
 
 
+_build_commands_to_enter () {
+	#
+	# You must add a semicolon to every command echoed.
+	#
+	where="$1"
+	echo "echo 'Virtualenv location: $where';"
+
+	if [[ -f $HOME/.bashrc ]]; then
+	   	echo "source $HOME/.bashrc;"
+	fi
+
+	cat <<-_EOD_
+		export VIRTUAL_ENV='${where}/bin';
+		export PATH='"${where}"/bin:${PATH}';
+		hash -r;
+		python --version;
+	_EOD_
+
+	for file in {.env,.env.local}; do
+		if [[ -r $file ]]; then
+			cat <<-_EOD_
+				echo 'Loading configuration file: $file';
+				source $file;
+			_EOD_
+			break
+		fi
+	done
+	echo "echo 'Type \"exit\" or press CTRL-D to exit';"
+}
 
 
 _main () {
