@@ -25,3 +25,12 @@ $ exit
 ```
 
 It will not close your terminal because V opens a subshell for the virtualenv.
+
+
+To show where the current directory's virtualenv lives:
+
+```
+$ cd ~/src/myproject
+$ V where
+/home/user/.local/share/virtualenvs/myproject_831ce98
+```

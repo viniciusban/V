@@ -11,6 +11,7 @@ _help () {
 	where <command>:
 	    help: show this screen and exit.
 	    enter: enter the virtualenv in a subshell.
+		where: show the virtualenv location.
 	_EOF_
 }
 
@@ -52,9 +53,32 @@ _build_commands_to_enter () {
 }
 
 
+_discover_virtualenv () {
+	declare -a names
+	hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
+	hashed=("$(basename $PWD)_$hash")
+	locations=("$HOME/.local/share/virtualenvs/$hashed" \
+		"$PWD/$hashed" \
+		"$PWD/.venv" \
+		"$PWD/venv" \
+		"$PWD/.virtualenv")
+	for path in "${locations[@]}"; do
+		if [[ -d $path ]]; then
+			echo $path
+			break
+		fi
+	done
+	return 1
+}
+
+
 _main () {
 	while true; do
 		case "$1" in
+			where )
+				_discover_virtualenv
+				return
+			;;
 			enter )
 				if [[ -z "$2" ]]; then
 					echo "Enter where?"
