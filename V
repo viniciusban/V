@@ -8,30 +8,35 @@ _help () {
 	cat <<-_EOF_
 	${me} - Python virtualenvs the right way
 
-	USAGE:
-	    ${me} [e, enter | h, help | w, where]
-	    ${me} [g, gen, generate] [-i | --inline]
-	    ${me} [-h, --help ]
+	Usage: V [COMMAND] [ARG]
 
-	COMMANDS:
-	    e, enter (the default)
-	        Enter the virtualenv in a subshell.
+	Commands:
+	  enter     Enter the virtualenv in a subshell.
+	  generate  Generate virtualenv path for current directory. 
+	    [-i, --inline]
+	  where     Show the virtualenv location.
 
-	    g, gen, generate
-	        Generate virtualenv path for current directory. 
+	  Note: all commands can be aliased by its first letter.
 
-	    h, help
-	        Show this screen and exit.
+	Examples:
+	  Create virtualenv for current directory in central directory:
+	  $ python -m venv \$(V generate)
 
-	    w, where
-	        Show the virtualenv location.
+	  Create virtualenv for current directory, under it:
+	  $ python -m venv \$(V generate --inline)
 
-	OPTIONS:
+	  Show where the virtualenv is:
+	  $ V where
+
+	  Enter the virtualenv related to current directory:
+	  $ V enter
+
+	Args:
 	    -h, --help
 	        Show this screen and exit.
 
 	    -i, --inline
-	        Consider path relative to PWD.
+	        Consider path under PWD.
 	_EOF_
 }
 
