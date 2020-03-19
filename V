@@ -16,7 +16,8 @@ _help () {
 
 	Commands:
 	  enter     Enter the virtualenv in a subshell.
-	  generate  Generate virtualenv path for current directory. 
+	  generate  Generate virtualenv's path for current directory. All virtualenvs
+	            live under "~/.local/share/virtualenvs/" unless "--inline" is used.
 	    [-i, --inline]
 	  run       Run a command inside the virtualenv.
 	    <command>
