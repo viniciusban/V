@@ -9,12 +9,12 @@ _help () {
 	${me} - Python virtualenvs the right way
 
 	USAGE:
-	    ${me} <command>
-	    ${me} help
-	    ${me} generate [-i | --inline]
+	    ${me} [e, enter | h, help | w, where]
+	    ${me} [g, gen, generate] [-i | --inline]
+	    ${me} [-h, --help ]
 
 	COMMANDS:
-	    e, enter
+	    e, enter (the default)
 	        Enter the virtualenv in a subshell.
 
 	    g, gen, generate
@@ -27,6 +27,9 @@ _help () {
 	        Show the virtualenv location.
 
 	OPTIONS:
+	    -h, --help
+	        Show this screen and exit.
+
 	    -i, --inline
 	        Consider path relative to PWD.
 	_EOF_
@@ -112,44 +115,48 @@ _generate_path () {
 
 
 _main () {
-	while true; do
-		case "$1" in
-			g | gen | generate )
-				if [[ -z "$2" ]]; then
-					option=
-				elif [[ "$2" =~ ^(-i|--inline)$ ]]; then
-					option=--inline
-				else
-					echo "Invalid option"
+	if [[ -n "$1" ]]; then
+		command="$1"
+	else
+		command=enter
+	fi
+
+	case "$command" in
+		g | gen | generate )
+			if [[ -z "$2" ]]; then
+				option=
+			elif [[ "$2" =~ ^(-i|--inline)$ ]]; then
+				option=--inline
+			else
+				echo "Invalid option"
+				return 1
+			fi
+			_generate_path $option
+			return
+		;;
+		w | where )
+			_discover_virtualenv
+			return
+		;;
+		e | enter )
+			if [[ -n "$2" ]]; then
+				where="$2"
+			else
+				where="$(_discover_virtualenv)"
+				if [[ -z "$where" ]]; then
+					echo "There is no virtualenv related to this directory"
 					return 1
 				fi
-				_generate_path $option
-				return
-			;;
-			w | where )
-				_discover_virtualenv
-				return
-			;;
-			e | enter )
-				if [[ -n "$2" ]]; then
-					where="$2"
-				else
-					where="$(_discover_virtualenv)"
-					if [[ -z "$where" ]]; then
-						echo "There is no virtualenv related to this directory"
-						return 1
-					fi
-				fi
-				_enter_virtualenv "$where"
-				return
-			;;
+			fi
+			_enter_virtualenv "$where"
+			return
+		;;
 
-			* )
-				_help
-				return
-			;;
-		esac
-	done
+		* )
+			_help
+			return
+		;;
+	esac
 }
 
 _main "$@"
