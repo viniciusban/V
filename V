@@ -14,17 +14,17 @@ _help () {
 	    ${me} generate [-i | --inline]
 
 	COMMANDS:
-	    h, help
-	        Show this screen and exit.
-
 	    e, enter
 	        Enter the virtualenv in a subshell.
 
-	    w, where
-	        Show the virtualenv location.
-
 	    g, gen, generate
 	        Generate virtualenv path for current directory. 
+
+	    h, help
+	        Show this screen and exit.
+
+	    w, where
+	        Show the virtualenv location.
 
 	OPTIONS:
 	    -i, --inline
