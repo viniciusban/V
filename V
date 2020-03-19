@@ -74,9 +74,15 @@ _discover_virtualenv () {
 
 
 _generate_path () {
+	option="$1"
 	hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
 	hashed=("$(basename $PWD)_$hash")
-	echo "$HOME/.local/share/virtualenvs/$hashed"
+	if [[ "$option" = "--inline" ]]; then
+		prefix="$PWD"
+	else
+		prefix="$HOME/.local/share/virtualenvs"
+	fi
+	echo "${prefix}/$hashed"
 }
 
 
@@ -84,7 +90,15 @@ _main () {
 	while true; do
 		case "$1" in
 			gen )
-				_generate_path
+				if [[ -z "$2" ]]; then
+					option=
+				elif [[ "$2" =~ ^(-i|--inline)$ ]]; then
+					option=--inline
+				else
+					echo "Invalid option"
+					return 1
+				fi
+				_generate_path $option
 				return
 			;;
 			where )
