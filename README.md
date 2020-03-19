@@ -22,8 +22,6 @@ To exit the virtualenv:
 
 ```
 $ exit
-$
 ```
 
-It will not close your terminal because V opens a subshell when enter into the virtualenv.
-
+It will not close your terminal because V opens a subshell for the virtualenv.
