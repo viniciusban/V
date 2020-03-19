@@ -80,11 +80,16 @@ _main () {
 				return
 			;;
 			enter )
-				if [[ -z "$2" ]]; then
-					echo "Enter where?"
-					return 1
+				if [[ -n "$2" ]]; then
+					where="$2"
+				else
+					where="$(_discover_virtualenv)"
+					if [[ -z "$where" ]]; then
+						echo "There is no virtualenv related to this directory"
+						return 1
+					fi
 				fi
-				_enter_virtualenv "$2"
+				_enter_virtualenv "$where"
 				return
 			;;
 
