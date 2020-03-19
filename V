@@ -14,13 +14,16 @@ _help () {
 	  enter     Enter the virtualenv in a subshell.
 	  generate  Generate virtualenv path for current directory. 
 	    [-i, --inline]
+	  run       Run a command inside the virtualenv.
+	    <command>
 	  where     Show the virtualenv location.
 
 	  Note: all commands can be aliased by its first letter.
 
 	Examples:
-	  Create virtualenv for current directory in central directory:
+	  Create virtualenv for current directory in central directory and install dependencies:
 	  $ python -m venv \$(V generate)
+	  $ V run pip install -r requirements.txt
 
 	  Create virtualenv for current directory, under it:
 	  $ python -m venv \$(V generate --inline)
@@ -78,6 +81,21 @@ _build_commands_to_enter () {
 }
 
 
+_prepare_virtualenv () {
+	where="$1"
+	export VIRTUAL_ENV="${where}/bin";
+	export PATH="${where}/bin:${PATH}";
+	hash -r;
+
+	for file in {.env,.env.local}; do
+		if [[ -r $file ]]; then
+			source $file;
+			break
+		fi
+	done
+}
+
+
 _discover_virtualenv () {
 	declare -a std_locations
 	std_locations=( \
@@ -118,6 +136,13 @@ _generate_path () {
 	echo "${prefix}/$hashed"
 }
 
+_run_command () {
+	command="$@"
+	where="$(_discover_virtualenv)"
+	_prepare_virtualenv "$where"
+	$command
+}
+
 
 _main () {
 	case "$1" in
@@ -145,6 +170,12 @@ _main () {
 				return 1
 			fi
 			_generate_path $option
+			return
+		;;
+
+		r | run )
+			shift
+			_run_command "$@"
 			return
 		;;
 
