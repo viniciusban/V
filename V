@@ -56,10 +56,8 @@ _build_commands_to_enter () {
 
 _discover_virtualenv () {
 	declare -a names
-	hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
-	hashed=("$(basename $PWD)_$hash")
-	locations=("$HOME/.local/share/virtualenvs/$hashed" \
-		"$PWD/$hashed" \
+	locations=("$(_generate_path)" \
+		"$(_generate_path --inline)" \
 		"$PWD/.venv" \
 		"$PWD/venv" \
 		"$PWD/.virtualenv")
