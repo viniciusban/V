@@ -120,13 +120,7 @@ _generate_path () {
 
 
 _main () {
-	if [[ -n "$1" ]]; then
-		command="$1"
-	else
-		command=enter
-	fi
-
-	case "$command" in
+	case "$1" in
 		g | gen | generate )
 			if [[ -z "$2" ]]; then
 				option=
