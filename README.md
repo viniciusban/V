@@ -9,7 +9,7 @@ To enter the virtualenv:
 
 ```
 $ cd ~/src/myproject
-$ V enter $PWD/.virtualenv
+$ V enter
 Virtualenv location: /home/user/src/myproject/.virtualenv
 Python 3.7.6
 Loading configuration file: .env
@@ -40,14 +40,14 @@ To generate virtualenv path for the current directory:
 
 ```
 $ cd ~/src/myproject
-$ V gen
+$ V generate
 /home/user/.local/share/virtualenvs/myproject_831ce98
 ```
 
 It is useful when creating a new virtualenv:
 
 ```
-$ python -m venv $(V gen)
+$ python -m venv $(V generate)
 $ V enter
 Virtualenv location: /home/user/.local/share/virtualenvs/myproject_831ce98
 Python 3.7.6
