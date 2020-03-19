@@ -21,7 +21,9 @@ _help () {
 	    [-i, --inline]
 	  run       Run a command inside the virtualenv.
 	    <command>
-	  where     Show the virtualenv location.
+	  where     Show the virtualenv location. Look for hashed-name version first.
+	            If it does not exist, look for legacy names, i.e, ".venv", "venv",
+	            and ".virtualenv".
 
 	  Note: all commands can be aliased by its first letter.
 
