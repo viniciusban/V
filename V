@@ -2,17 +2,35 @@
 #
 # V - Work effectively with virtualenvs
 
-me=$(basename "$0")
+me=V
 
 _help () {
 	cat <<-_EOF_
-	Work with Python virtualenvs the right way.
-	Usage: ${me} <command>
-	where <command>:
-	    help: show this screen and exit.
-	    enter: enter the virtualenv in a subshell.
-		where: show the virtualenv location.
-	    gen: generate virtualenv path for current directory.
+	${me} - Python virtualenvs the right way
+
+	USAGE:
+	    ${me} <command>
+
+	    ${me} help [-v | --verbose]
+
+	    ${me} gen [-i | --inline]
+
+	COMMANDS:
+	    help
+	        Show this screen and exit.
+
+	    enter
+	        Enter the virtualenv in a subshell.
+
+	    where
+	        Show the virtualenv location.
+
+	    gen
+	        Generate virtualenv path for current directory. 
+
+	OPTIONS:
+	    -i, --inline
+	        Consider path relative to PWD.
 	_EOF_
 }
 
