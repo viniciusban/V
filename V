@@ -10,22 +10,20 @@ _help () {
 
 	USAGE:
 	    ${me} <command>
-
 	    ${me} help [-v | --verbose]
-
-	    ${me} gen [-i | --inline]
+	    ${me} generate [-i | --inline]
 
 	COMMANDS:
-	    help
+	    h, help
 	        Show this screen and exit.
 
-	    enter
+	    e, enter
 	        Enter the virtualenv in a subshell.
 
-	    where
+	    w, where
 	        Show the virtualenv location.
 
-	    gen
+	    g, gen, generate
 	        Generate virtualenv path for current directory. 
 
 	OPTIONS:
@@ -116,7 +114,7 @@ _generate_path () {
 _main () {
 	while true; do
 		case "$1" in
-			gen )
+			g | gen | generate )
 				if [[ -z "$2" ]]; then
 					option=
 				elif [[ "$2" =~ ^(-i|--inline)$ ]]; then
@@ -128,11 +126,11 @@ _main () {
 				_generate_path $option
 				return
 			;;
-			where )
+			w | where )
 				_discover_virtualenv
 				return
 			;;
-			enter )
+			e | enter )
 				if [[ -n "$2" ]]; then
 					where="$2"
 				else
