@@ -12,6 +12,7 @@ _help () {
 	    help: show this screen and exit.
 	    enter: enter the virtualenv in a subshell.
 		where: show the virtualenv location.
+	    gen: generate virtualenv path for current directory.
 	_EOF_
 }
 
@@ -72,9 +73,20 @@ _discover_virtualenv () {
 }
 
 
+_generate_path () {
+	hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
+	hashed=("$(basename $PWD)_$hash")
+	echo "$HOME/.local/share/virtualenvs/$hashed"
+}
+
+
 _main () {
 	while true; do
 		case "$1" in
+			gen )
+				_generate_path
+				return
+			;;
 			where )
 				_discover_virtualenv
 				return

@@ -34,3 +34,23 @@ $ cd ~/src/myproject
 $ V where
 /home/user/.local/share/virtualenvs/myproject_831ce98
 ```
+
+
+To generate virtualenv path for the current directory:
+
+```
+$ cd ~/src/myproject
+$ V gen
+/home/user/.local/share/virtualenvs/myproject_831ce98
+```
+
+It is useful when creating a new virtualenv:
+
+```
+$ python -m venv $(V gen)
+$ V enter
+Virtualenv location: /home/user/.local/share/virtualenvs/myproject_831ce98
+Python 3.7.6
+Type "exit" or press CTRL-D to exit
+$ 
+```
