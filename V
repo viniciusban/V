@@ -4,6 +4,10 @@
 
 me=V
 
+if [[ -z "$XDG_DATA_HOME" ]]; then
+	XDG_DATA_HOME="$HOME/.local/share"
+fi
+
 _help () {
 	cat <<-_EOF_
 	${me} - Python virtualenvs the right way
@@ -131,7 +135,7 @@ _generate_path () {
 	if [[ "$option" = "--inline" ]]; then
 		prefix="$PWD"
 	else
-		prefix="$HOME/.local/share/virtualenvs"
+		prefix="$XDG_DATA_HOME/virtualenvs"
 	fi
 	echo "${prefix}/$hashed"
 }
