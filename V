@@ -35,7 +35,7 @@ _build_commands_to_enter () {
 
 	cat <<-_EOD_
 		export VIRTUAL_ENV='${where}/bin';
-		export PATH='"${where}"/bin:${PATH}';
+		export PATH='${where}/bin:${PATH}';
 		hash -r;
 		python --version;
 	_EOD_
