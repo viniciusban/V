@@ -55,7 +55,7 @@ _build_commands_to_enter () {
 
 
 _discover_virtualenv () {
-	declare -a names
+	declare -a locations
 	locations=("$(_generate_path)" \
 		"$(_generate_path --inline)" \
 		"$PWD/.venv" \
