@@ -10,7 +10,7 @@ _help () {
 
 	USAGE:
 	    ${me} <command>
-	    ${me} help [-v | --verbose]
+	    ${me} help
 	    ${me} generate [-i | --inline]
 
 	COMMANDS:
