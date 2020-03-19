@@ -5,7 +5,7 @@ I like the philosophy of Pipenv, but I want to stay detached from the installati
 
 ## Usage ##
 
-To enter the virtualenv:
+Enter the virtualenv in a subshell:
 
 ```
 $ cd ~/src/myproject
@@ -18,16 +18,14 @@ $
 ```
 
 
-To exit the virtualenv:
+Exit the virtualenv (without closing the terminal):
 
 ```
 $ exit
 ```
 
-It will not close your terminal because V opens a subshell for the virtualenv.
 
-
-To show where the current directory's virtualenv lives:
+Show where the current directory's virtualenv lives:
 
 ```
 $ cd ~/src/myproject
@@ -36,21 +34,11 @@ $ V where
 ```
 
 
-To generate virtualenv path for the current directory:
+Type `$ V` in your command line to see more examples.
 
-```
-$ cd ~/src/myproject
-$ V generate
-/home/user/.local/share/virtualenvs/myproject_831ce98
-```
 
-It is useful when creating a new virtualenv:
+## Installation
 
-```
-$ python -m venv $(V generate)
-$ V enter
-Virtualenv location: /home/user/.local/share/virtualenvs/myproject_831ce98
-Python 3.7.6
-Type "exit" or press CTRL-D to exit
-$ 
-```
+Put its directory in your PATH.
+
+As a convenience, just type `$ ./install.sh` to symlink `V` to `~/.local/bin`.
