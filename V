@@ -55,18 +55,29 @@ _build_commands_to_enter () {
 
 
 _discover_virtualenv () {
-	declare -a locations
-	locations=("$(_generate_path)" \
-		"$(_generate_path --inline)" \
+	declare -a std_locations
+	std_locations=( \
+		"$(_generate_path)" \
+		"$(_generate_path --inline)")
+	for path in "${std_locations[@]}"; do
+		if [[ -d $path ]]; then
+			echo $path
+			return
+		fi
+	done
+
+	declare -a legacy_locations
+	legacy_locations=( \
 		"$PWD/.venv" \
 		"$PWD/venv" \
 		"$PWD/.virtualenv")
-	for path in "${locations[@]}"; do
+	for path in "${legacy_locations[@]}"; do
 		if [[ -d $path ]]; then
 			echo $path
-			break
+			return
 		fi
 	done
+
 	return 1
 }
 
