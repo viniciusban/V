@@ -152,7 +152,7 @@ _run_command () {
 
 _main () {
 	case "$1" in
-		e | enter )
+		e | enter | shell | activate )
 			if [[ -n "$2" ]]; then
 				where="$2"
 			else
