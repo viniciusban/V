@@ -22,9 +22,8 @@ _help () {
 	    [-i, --inline]
 	  run       Run a command inside the virtualenv.
 	    <command>
-	  where     Show the virtualenv location. Look for hashed-name version first.
-	            If it does not exist, look for legacy names, i.e, ".venv", "venv",
-	            and ".virtualenv".
+	  where     Show the virtualenv location. The priority is: standard hashed-name,
+	            ".virtualenv", ".venv", "venv".
 
 	  Note: all commands can be aliased by its first letter.
 
@@ -117,8 +116,7 @@ _discover_virtualenv () {
 	declare -a legacy_locations
 	legacy_locations=( \
 		"$PWD/.venv" \
-		"$PWD/venv" \
-		"$PWD/.virtualenv")
+		"$PWD/venv")
 	for path in "${legacy_locations[@]}"; do
 		if [[ -d $path ]]; then
 			echo $path
