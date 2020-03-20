@@ -132,14 +132,14 @@ _discover_virtualenv () {
 
 _generate_path () {
 	option="$1"
+	if [[ "$option" = "--inline" ]]; then
+		echo "${PWD}/.virtualenv"
+		return
+	fi
+
 	hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
 	hashed=("$(basename $PWD)_$hash")
-	if [[ "$option" = "--inline" ]]; then
-		prefix="$PWD"
-	else
-		prefix="$XDG_DATA_HOME/virtualenvs"
-	fi
-	echo "${prefix}/$hashed"
+	echo "$XDG_DATA_HOME/virtualenvs/$hashed"
 }
 
 _run_command () {
