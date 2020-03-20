@@ -124,6 +124,7 @@ _discover_virtualenv () {
 		fi
 	done
 
+	echo "Virtualenv not found"
 	return 1
 }
 
