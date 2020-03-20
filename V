@@ -124,7 +124,7 @@ _discover_virtualenv () {
 		fi
 	done
 
-	echo "Virtualenv not found"
+	echo "Virtualenv not found" >&2
 	return 1
 }
 
@@ -157,7 +157,7 @@ _main () {
 			else
 				where="$(_discover_virtualenv)"
 				if [[ -z "$where" ]]; then
-					echo "There is no virtualenv related to this directory"
+					echo "There is no virtualenv related to this directory" >&2
 					return 1
 				fi
 			fi
@@ -171,7 +171,7 @@ _main () {
 			elif [[ "$2" =~ ^(-i|--inline)$ ]]; then
 				option=--inline
 			else
-				echo "Invalid option"
+				echo "Invalid option" >&2
 				return 1
 			fi
 			_generate_path $option
