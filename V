@@ -5,11 +5,11 @@
 me=V
 
 if [[ -z "$XDG_DATA_HOME" ]]; then
-	XDG_DATA_HOME="$HOME/.local/share"
+    XDG_DATA_HOME="$HOME/.local/share"
 fi
 
 _help () {
-	cat <<-_EOF_
+    cat <<-_EOF_
 	${me} - Python virtualenvs the right way
 
 	Usage: V [COMMAND] [ARG]
@@ -51,149 +51,149 @@ _help () {
 }
 
 _enter_virtualenv () {
-	where="$1"
-	commands=$(_build_commands_to_enter "$where")
-	bash --init-file <(echo $commands)
+    where="$1"
+    commands=$(_build_commands_to_enter "$where")
+    bash --init-file <(echo $commands)
 }
 
 
 _build_commands_to_enter () {
-	#
-	# You must add a semicolon to every command echoed.
-	#
-	where="$1"
-	echo "echo 'Virtualenv location: $where';"
+    #
+    # You must add a semicolon to every command echoed.
+    #
+    where="$1"
+    echo "echo 'Virtualenv location: $where';"
 
-	if [[ -f $HOME/.bashrc ]]; then
-	   	echo "source $HOME/.bashrc;"
-	fi
+    if [[ -f $HOME/.bashrc ]]; then
+           echo "source $HOME/.bashrc;"
+    fi
 
-	cat <<-_EOD_
-		export VIRTUAL_ENV='${where}/bin';
-		export PATH='${where}/bin:${PATH}';
-		hash -r;
-		python --version;
+    cat <<-_EOD_
+	    export VIRTUAL_ENV='${where}';
+	    export PATH='${where}/bin:${PATH}';
+	    hash -r;
+	    python --version;
 	_EOD_
 
-	for file in {.env,.env.local}; do
-		if [[ -r $file ]]; then
-			cat <<-_EOD_
-				echo 'Loading configuration file: $file';
-				source $file;
+    for file in {.env,.env.local}; do
+        if [[ -r $file ]]; then
+            cat <<-_EOD_
+			    echo 'Loading configuration file: $file';
+			    source $file;
 			_EOD_
-		fi
-	done
-	echo "echo 'Type \"exit\" or press CTRL-D to exit';"
+        fi
+    done
+    echo "echo 'Type \"exit\" or press CTRL-D to exit';"
 }
 
 
 _prepare_virtualenv () {
-	where="$1"
-	export VIRTUAL_ENV="${where}/bin";
-	export PATH="${where}/bin:${PATH}";
-	hash -r;
+    where="$1"
+    export VIRTUAL_ENV="${where}";
+    export PATH="${where}/bin:${PATH}";
+    hash -r;
 
-	for file in {.env,.env.local}; do
-		if [[ -r $file ]]; then
-			source $file;
-		fi
-	done
+    for file in {.env,.env.local}; do
+        if [[ -r $file ]]; then
+            source $file;
+        fi
+    done
 }
 
 
 _discover_virtualenv () {
-	declare -a std_locations
-	std_locations=( \
-		"$(_generate_path)" \
-		"$(_generate_path --inline)")
-	for path in "${std_locations[@]}"; do
-		if [[ -d $path ]]; then
-			echo $path
-			return
-		fi
-	done
+    declare -a std_locations
+    std_locations=( \
+        "$(_generate_path)" \
+        "$(_generate_path --inline)")
+    for path in "${std_locations[@]}"; do
+        if [[ -d $path ]]; then
+            echo $path
+            return
+        fi
+    done
 
-	declare -a legacy_locations
-	legacy_locations=( \
-		"$PWD/.venv" \
-		"$PWD/venv")
-	for path in "${legacy_locations[@]}"; do
-		if [[ -d $path ]]; then
-			echo $path
-			return
-		fi
-	done
+    declare -a legacy_locations
+    legacy_locations=( \
+        "$PWD/.venv" \
+        "$PWD/venv")
+    for path in "${legacy_locations[@]}"; do
+        if [[ -d $path ]]; then
+            echo $path
+            return
+        fi
+    done
 
-	echo "Virtualenv not found" >&2
-	return 1
+    echo "Virtualenv not found" >&2
+    return 1
 }
 
 
 _generate_path () {
-	option="$1"
-	if [[ "$option" = "--inline" ]]; then
-		echo "${PWD}/.virtualenv"
-		return
-	fi
+    option="$1"
+    if [[ "$option" = "--inline" ]]; then
+        echo "${PWD}/.virtualenv"
+        return
+    fi
 
-	hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
-	hashed=("$(basename $PWD)_$hash")
-	echo "$XDG_DATA_HOME/virtualenvs/$hashed"
+    hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
+    hashed=("$(basename $PWD)_$hash")
+    echo "$XDG_DATA_HOME/virtualenvs/$hashed"
 }
 
 _run_command () {
-	command="$@"
-	where="$(_discover_virtualenv)"
-	_prepare_virtualenv "$where"
-	$command
+    command="$@"
+    where="$(_discover_virtualenv)"
+    _prepare_virtualenv "$where"
+    $command
 }
 
 
 _main () {
-	case "$1" in
-		e | enter | shell | activate )
-			if [[ -n "$2" ]]; then
-				where="$2"
-			else
-				where="$(_discover_virtualenv)"
-				if [[ -z "$where" ]]; then
-					echo "There is no virtualenv related to this directory" >&2
-					return 1
-				fi
-			fi
-			_enter_virtualenv "$where"
-			return
-		;;
+    case "$1" in
+        e | enter | shell | activate )
+            if [[ -n "$2" ]]; then
+                where="$2"
+            else
+                where="$(_discover_virtualenv)"
+                if [[ -z "$where" ]]; then
+                    echo "There is no virtualenv related to this directory" >&2
+                    return 1
+                fi
+            fi
+            _enter_virtualenv "$where"
+            return
+        ;;
 
-		g | gen | generate )
-			if [[ -z "$2" ]]; then
-				option=
-			elif [[ "$2" =~ ^(-i|--inline)$ ]]; then
-				option=--inline
-			else
-				echo "Invalid option" >&2
-				return 1
-			fi
-			_generate_path $option
-			return
-		;;
+        g | gen | generate )
+            if [[ -z "$2" ]]; then
+                option=
+            elif [[ "$2" =~ ^(-i|--inline)$ ]]; then
+                option=--inline
+            else
+                echo "Invalid option" >&2
+                return 1
+            fi
+            _generate_path $option
+            return
+        ;;
 
-		r | run )
-			shift
-			_run_command "$@"
-			return
-		;;
+        r | run )
+            shift
+            _run_command "$@"
+            return
+        ;;
 
-		w | where )
-			_discover_virtualenv
-			return
-		;;
+        w | where )
+            _discover_virtualenv
+            return
+        ;;
 
-		* )
-			_help
-			return
-		;;
-	esac
+        * )
+            _help
+            return
+        ;;
+    esac
 }
 
 _main "$@"
