@@ -8,45 +8,29 @@ if [[ -z "$XDG_DATA_HOME" ]]; then
     XDG_DATA_HOME="$HOME/.local/share"
 fi
 
+_quick_help () {
+    cat <<-_EOF_
+	Usage: V [gen [--inline] | run <command> | shell | where | help]
+	_EOF_
+}
+
 _help () {
     cat <<-_EOF_
 	${me} - Python virtualenvs the right way
 
-	Usage: V [COMMAND] [ARG]
-
+	Usage: V <command> [<option>] [<arg>]
 	Commands:
-	  enter     Enter the virtualenv in a subshell. If ".env" and ".env.local"
-	            files are present, they are sourced, in this sequence.
-	  generate  Generate virtualenv's path for current directory. All virtualenvs
-	            live under "~/.local/share/virtualenvs/" unless "--inline" is used.
-	    [-i, --inline]
-	  run       Run a command inside the virtualenv.
-	    <command>
-	  where     Show the virtualenv location. The priority is: standard hashed-name,
-	            ".virtualenv", ".venv", "venv".
-
-	  Note: all commands can be aliased by its first letter.
-
-	Examples:
-	  Create virtualenv for current directory in central directory and install dependencies:
-	  $ python -m venv \$(V generate)
-	  $ V run pip install -r requirements.txt
-
-	  Create virtualenv for current directory, under it:
-	  $ python -m venv \$(V generate --inline)
-
-	  Show where the virtualenv is:
-	  $ V where
-
-	  Enter the virtualenv related to current directory:
-	  $ V enter
-
-	Args:
-	    -h, --help
-	        Show this screen and exit.
-
-	    -i, --inline
-	        Consider path under PWD.
+	  gen [--inline]
+	      Generate virtualenv's path for current directory in the global pool.
+	      \$ python -m venv \$(V gen)
+	  run <command>
+	      Run <command> inside the virtualenv.
+	      \$ V run pip install -r requirements.txt
+	  shell
+	      Open a sub-shell with the virtualenv activated.
+	      Source ".env" and ".env.local" files.
+	  where
+	      Show the virtualenv location.
 	_EOF_
 }
 
@@ -151,7 +135,7 @@ _run_command () {
 
 _main () {
     case "$1" in
-        e | enter | shell | activate )
+        shell )
             if [[ -n "$2" ]]; then
                 where="$2"
             else
@@ -165,7 +149,7 @@ _main () {
             return
         ;;
 
-        g | gen | generate )
+        gen )
             if [[ -z "$2" ]]; then
                 option=
             elif [[ "$2" =~ ^(-i|--inline)$ ]]; then
@@ -178,19 +162,24 @@ _main () {
             return
         ;;
 
-        r | run )
+        run )
             shift
             _run_command "$@"
             return
         ;;
 
-        w | where )
+        where )
             _discover_virtualenv
             return
         ;;
 
-        * )
+        help )
             _help
+            return
+        ;;
+
+        * )
+            _quick_help
             return
         ;;
     esac

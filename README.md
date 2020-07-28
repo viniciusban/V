@@ -9,10 +9,11 @@ Enter the virtualenv in a subshell:
 
 ```
 $ cd ~/src/myproject
-$ V enter
-Virtualenv location: /home/user/src/myproject/.virtualenv
+$ V shell
+Virtualenv location: /home/user/.local/share/virtualenvs/myproject_831ce98
 Python 3.7.6
 Loading configuration file: .env
+Loading configuration file: .env_override
 Type "exit" or press CTRL-D to exit
 $ 
 ```
@@ -22,6 +23,14 @@ Exit the virtualenv (without closing the terminal):
 
 ```
 $ exit
+```
+
+Create a virtualenv:
+
+```
+$ cd ~/src/myproject
+$ python -m venv $(V gen)
+/home/user/.local/share/virtualenvs/myproject_831ce98
 ```
 
 
@@ -34,7 +43,7 @@ $ V where
 ```
 
 
-Type `$ V` in your command line to see more examples.
+Type `$ V` in your command line to see the help.
 
 
 ## Installation
