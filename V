@@ -89,6 +89,7 @@ _discover_virtualenv () {
     declare -a std_locations
     std_locations=( \
         "$(_generate_path)" \
+        "$(_generate_path --legacy-hashed)" \
         "$(_generate_path --inline)")
     for path in "${std_locations[@]}"; do
         if [[ -d $path ]]; then
