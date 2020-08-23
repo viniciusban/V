@@ -121,9 +121,16 @@ _generate_path () {
         return
     fi
 
-    hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
-    hashed=("$(basename $PWD)_$hash")
-    echo "$XDG_DATA_HOME/virtualenvs/$hashed"
+    if [[ "$option" = "--legacy-hashed" ]]; then
+        hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
+        hashed=("$(basename $PWD)_$hash")
+        echo "$XDG_DATA_HOME/virtualenvs/$hashed"
+        return
+    fi
+
+    pwd_without_home=${PWD/#${HOME}\//}
+    pwd_with_slashes_substituted=${pwd_without_home//\//__}
+    echo "$XDG_DATA_HOME/virtualenvs/${pwd_with_slashes_substituted}"
 }
 
 _run_command () {
