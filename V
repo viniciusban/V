@@ -100,7 +100,8 @@ _discover_virtualenv () {
     declare -a legacy_locations
     legacy_locations=( \
         "$PWD/.venv" \
-        "$PWD/venv")
+        "$PWD/venv" \
+        "$PWD/env")
     for path in "${legacy_locations[@]}"; do
         if [[ -d $path ]]; then
             echo $path
