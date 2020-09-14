@@ -110,7 +110,6 @@ _discover_virtualenv () {
         fi
     done
 
-    echo "Virtualenv not found" >&2
     return 1
 }
 
