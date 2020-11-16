@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-ln -sf $PWD/V ~/.local/bin/
+ln -sf $PWD/ve ~/.local/bin/

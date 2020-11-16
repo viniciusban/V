@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #
-# V - Work effectively with virtualenvs
+# ve manages virtualenv. The right way.
 
-me=V
+me=ve
 
 if [[ -z "$XDG_DATA_HOME" ]]; then
     XDG_DATA_HOME="$HOME/.local/share"
@@ -10,22 +10,22 @@ fi
 
 _quick_help () {
     cat <<-_EOF_
-	Usage: V [gen [--inline] | run <command> | shell | where | help]
+	Usage: ve [gen [--inline] | run <command> | shell | where | help]
 	_EOF_
 }
 
 _help () {
     cat <<-_EOF_
-	${me} - Python virtualenvs the right way
+	${me} manages virtualenv. The right way.
 
-	Usage: V <command> [<option>] [<arg>]
+	Usage: ve <command> [<option>] [<arg>]
 	Commands:
 	  gen [--inline]
 	      Generate virtualenv's path for current directory in the global pool.
-	      \$ python -m venv \$(V gen)
+	      \$ python -m venv \$(ve gen)
 	  run <command>
 	      Run <command> inside the virtualenv.
-	      \$ V run pip install -r requirements.txt
+	      \$ ve run pip install -r requirements.txt
 	  shell
 	      Open a sub-shell with the virtualenv activated.
 	      Source ".env" and ".env_override" files.

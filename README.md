@@ -1,6 +1,6 @@
-# Virtualenvs the right way #
+# Ve manages virtualenv. The right way #
 
-I like the philosophy of Pipenv, but I want to stay detached from the installation process and creation of the virtualenv. V solves that.
+I like the philosophy of Pipenv, but I want to stay detached from the installation process and creation of the virtualenv. Ve solves that.
 
 
 ## Usage ##
@@ -9,7 +9,7 @@ Enter the virtualenv in a subshell:
 
 ```
 $ cd ~/src/myproject
-$ V shell
+$ ve shell
 Virtualenv location: /home/user/.local/share/virtualenvs/myproject_831ce98
 Python 3.7.6
 Loading configuration file: .env
@@ -29,7 +29,7 @@ Create a virtualenv:
 
 ```
 $ cd ~/src/myproject
-$ python -m venv $(V gen)
+$ python -m venv $(ve gen)
 /home/user/.local/share/virtualenvs/myproject_831ce98
 ```
 
@@ -38,16 +38,16 @@ Show where the current directory's virtualenv lives:
 
 ```
 $ cd ~/src/myproject
-$ V where
+$ ve where
 /home/user/.local/share/virtualenvs/myproject_831ce98
 ```
 
 
-Type `$ V` in your command line to see the help.
+Type `$ ve` in your command line to see the help.
 
 
 ## Installation
 
 Put its directory in your PATH.
 
-As a convenience, just type `$ ./install.sh` to symlink `V` to `~/.local/bin`.
+As a convenience, just type `$ ./install.sh` to symlink `ve` to `~/.local/bin`.
