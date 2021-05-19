@@ -22,6 +22,8 @@ _help () {
 
 	Usage: ve <command> [<option>] [<arg>]
 	Commands:
+	  list
+	      List all virtualenvs under ${XDG_DATA_HOME}/virtualenvs/
 	  gen [--inline]
 	      Generate virtualenv's path for current directory in the global pool.
 	      \$ python -m venv \$(ve gen)
@@ -158,6 +160,10 @@ _run_command () {
 
 _main () {
     case "$1" in
+        list )
+            ls -1 ${XDG_DATA_HOME}/virtualenvs
+        ;;
+
         shell )
             if [[ -n "$2" ]]; then
                 where="$2"
