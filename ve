@@ -89,6 +89,7 @@ _discover_virtualenv () {
     declare -a std_locations
     std_locations=( \
         "$(_generate_path)" \
+        "$(_generate_path --legacy-without-hash)" \
         "$(_generate_path --legacy-hashed)" \
         "$(_generate_path --inline)")
     for path in "${std_locations[@]}"; do
@@ -121,16 +122,28 @@ _generate_path () {
         return
     fi
 
+    if [[ -z "$option" ]]; then
+        pyversion=$(python --version 2>&1 | cut -d' ' -f2)
+        hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
+        pwd_basename=$(basename $PWD)
+        hashed="${pwd_basename}-${hash}-py${pyversion}"
+        echo "$XDG_DATA_HOME/virtualenvs/$hashed"
+        return
+    fi
+
+    if [[ "$option" = "--legacy-without-hash" ]]; then
+        pwd_without_home=${PWD/#${HOME}\//}
+        pwd_with_slashes_substituted=${pwd_without_home//\//__}
+        echo "$XDG_DATA_HOME/virtualenvs/${pwd_with_slashes_substituted}"
+        return
+    fi
+
     if [[ "$option" = "--legacy-hashed" ]]; then
         hash=$(echo $PWD | sha1sum | cut -d' ' -f1 | cut -c1-7)
         hashed=("$(basename $PWD)_$hash")
         echo "$XDG_DATA_HOME/virtualenvs/$hashed"
         return
     fi
-
-    pwd_without_home=${PWD/#${HOME}\//}
-    pwd_with_slashes_substituted=${pwd_without_home//\//__}
-    echo "$XDG_DATA_HOME/virtualenvs/${pwd_with_slashes_substituted}"
 }
 
 _run_command () {
