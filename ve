@@ -8,6 +8,8 @@ if [[ -z "$XDG_DATA_HOME" ]]; then
     XDG_DATA_HOME="$HOME/.local/share"
 fi
 
+mkdir -p $XDG_DATA_HOME
+
 _quick_help () {
     cat <<-_EOF_
 	Usage: ve [gen [--inline] | run <command> | shell | where | help]
